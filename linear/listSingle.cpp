@@ -1,10 +1,9 @@
-//
-// Created by DSL on 2018/2/2.
-//
+//单链表的主键
 
 #include <iostream>
 #include "listSingle.h"
 
+//---------------------------基本方法----------------------
 //构造一二空的线性表L
 void ListSingle::InitList(LinkList &L) {
     L = (LinkList)malloc(sizeof(LNode)); //产生头节点，并使L指向此头节点
@@ -81,6 +80,54 @@ Status ListSingle::GetElem(LinkList L, int i, ElemType &e) {
     return OK;
 }
 
+//线性表L已存在，compare()是数据元素判定函数（满足为1，否则为0）
+//返回L中第1个与e满关系compare()的数据元素的位序。
+//若这样的数据元素不存在，则返回0
+int ListSingle::LocateElem(LinkList L, ElemType e, Status (* compare)(ElemType, ElemType)) {
+    int i=0;
+    LinkList p=L->next;
+
+    while(p){
+        ++i;
+        if(compare(p->data ,e)){
+            return i;
+        }
+        p=p->next;
+    }
+
+    return 0;
+
+}
+
+//若cur_e是L的数据元素，且不是第一个，用pre_e返回它的前驱，并返回OK
+Status ListSingle::PriorElem(LinkList L, ElemType cur_e, ElemType &pre_e) {
+    LinkList p=L->next,q;
+    if(p){
+        q=p->next;
+        while(q){
+            if(q->data==cur_e){
+                pre_e=p->data;
+                return OK;
+            }
+            p=q;
+            q=q->next;
+        }
+    }
+
+    return INFEASIBLE;
+}
+
+//遍历打印线性表
+void ListSingle::ListTraverse(LinkList L, void (*vi)(ElemType)) {
+    LinkList p=L->next;
+    while(p){
+        vi(p->data);
+        p=p->next;
+    }
+    printf("\n");
+}
+
+//-------------------------扩展方法------------------------
 //正位序（插在表尾），输入n个元素的值，建立带表头结构的单链线性表L
 //注：指针调用类或结构体中的值用->，类型变量调用用.
 void ListSingle::CreateList2(LinkList &L, int n) {
@@ -128,12 +175,3 @@ void ListSingle::MergeList(LinkList La, LinkList Lb, LinkList &Lc) {
     k->next=p?p:q;
 }
 
-//遍历打印线性表
-void ListSingle::ListTraverse(LinkList L, void (*vi)(ElemType)) {
-    LinkList p=L->next;
-    while(p){
-        vi(p->data);
-        p=p->next;
-    }
-    printf("\n");
-}

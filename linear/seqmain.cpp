@@ -2,11 +2,13 @@
 
 typedef int ElemType;
 #include "../c1.h"
-#include "c2-1.h"
-#include "func2-3.cpp"
-#include "bo2-1.cpp"
+#include "seqlist.h"
+#include "../func2-3.cpp"
+#include "seqlist.cpp"
+#include "seqlistEx.cpp"
+using namespace std;
 
-int main1(){
+int main(){
     SqList La,Lb;
     int j;
 
@@ -34,4 +36,19 @@ int main1(){
     printf("\n");
     Union(La,Lb);
     PrintList(La);
+
+    cout<<"---测试归并---"<<endl;
+    cout<<"La:";
+    PrintList(La);
+    cout<<"Lb:";
+    ListInsert(Lb,5,7);
+    ListInsert(Lb,6,9);
+    PrintList(Lb);
+
+    SqList Lc;
+    InitList(Lc);
+
+    MergeList(La,Lb,Lc);
+    cout<<"Lc:";
+    PrintList(Lc);
 }

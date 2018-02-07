@@ -2,9 +2,8 @@
 
 typedef int ElemType;
 #include "c1.h"
-#include "linear/c2-1.h"
 #include "linear/listSingle.cpp"
-#include "linear/func2-3.cpp"
+#include "func2-3.cpp"
 using namespace std;
 
 int main(){
@@ -26,5 +25,8 @@ int main(){
     cout<<e<<status<<endl;
 
     cout<<ls.ListLength(l1)<<endl;
+    cout<<ls.LocateElem(l2,15,equal)<<endl;
+    cout<<"prior:"<<ls.PriorElem(l2,4,e);
+    cout<<" e:"<<e<<endl;
 
 }

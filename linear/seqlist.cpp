@@ -182,21 +182,6 @@ void ListTraverse(SqList L, void(*vi)(ElemType&)){
     printf("\n");
 }
 
-//将所有在线性表Lb中但不在La中的数据元素插入到La中
-void Union(SqList &La, SqList Lb){
-    ElemType e;
-    int La_len,Lb_len;
-    int i;
-    La_len=ListLength(La);
-    Lb_len=ListLength(Lb);
-
-    for(i=1;i<=Lb_len;i++){
-        GetElem(Lb,i,e);
-        if(LocateElem(La,e,equal)==0){
-            ListInsert(La,La.length+1,e);
-        }
-    }
-}
 
 
 void PrintList(SqList &L){

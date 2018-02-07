@@ -1,4 +1,4 @@
-//c2-2.h 线性表的单链表存储结构
+//线性表的单链表存储结构--头文件
 
 struct LNode{
     ElemType data; //用于存储数据
@@ -16,12 +16,17 @@ public:
     Status ListEmpty(LinkList L);
     int ListLength(LinkList L);
     Status GetElem(LinkList L, int i, ElemType &e);
+    int LocateElem(LinkList L,ElemType e,Status(*compare)(ElemType,ElemType));
+    Status PriorElem(LinkList L,ElemType cur_e,ElemType &pre_e);
+    Status NextElem(LinkList L,ElemType cur_e,ElemType &next_e);
+    Status ListInsert(LinkList L,int i,ElemType e);
+    Status ListDelete(LinkList L,int i,ElemType &e);
+    void ListTraverse(LinkList L,void(*vi)(ElemType));
 
     //扩展方法
     void CreateList2(LinkList &L,int n);
     void MergeList(LinkList La, LinkList Lb, LinkList &Lc);
 
-    void ListTraverse(LinkList L,void(*vi)(ElemType));
 };
 
 
