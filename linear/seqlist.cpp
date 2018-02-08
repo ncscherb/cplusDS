@@ -1,5 +1,5 @@
-//bo2-1.cpp顺序表示的线性表的基本操作（12个）
-//存储结构由c2-1.h定义
+//seqlist.cpp顺序表示的线性表的基本操作（12个）
+//存储结构由seqlist.h定义
 
 //构造一个空的顺序线性表
 void InitList(SqList &L){
