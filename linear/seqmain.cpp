@@ -46,9 +46,14 @@ int main(){
     PrintList(Lb);
 
     SqList Lc;
-    InitList(Lc);
-
     MergeList(La,Lb,Lc);
     cout<<"Lc:";
     PrintList(Lc);
+
+    cout<<"---测试归并2---"<<endl;
+    SqList Ld;
+    MergeList2(La,Lb,Ld);
+    cout<<"Ld:";
+    PrintList(Ld);
+
 }

@@ -22,6 +22,7 @@ void MergeList(SqList La,SqList Lb, SqList &Lc){
     int La_len=ListLength(La);
     int Lb_len=ListLength(Lb);
     ElemType v1,v2; //使用变量类型定义变量
+    InitList(Lc);
 
     while (i<=La_len&&j<=Lb_len){
         GetElem(La,i,v1);
@@ -64,5 +65,39 @@ void MergeList(SqList La,SqList Lb, SqList &Lc){
         }
     }
      */
+}
 
+
+//已知线性表La和Lb中的元素按值非递减排列
+//归并La和Lb得到新的线性表Lc=>不去除重复元素，Lc的数据元素也按值非递减排列
+void MergeList2(SqList La, SqList Lb, SqList &Lc){
+    ElemType  *pa,*pa_last,*pb,*pb_last,*pc;
+    pa=La.elem;
+    pb=Lb.elem;
+
+    Lc.listsize=Lc.length=La.length+Lb.length;
+    pc=Lc.elem=(ElemType*)malloc(Lc.length*sizeof(ElemType));
+    if(!Lc.elem){
+        exit(OVERFLOW);
+    }
+
+    pa_last=pa+La.length-1;
+    pb_last=pb+Lb.length-1;
+
+    //表La和表Lb均非空
+    while (pa<=pa_last&&pb<=pb_last){
+        //归并
+        if(*pa<=*pb){
+            //将pa所指单元的值赋值给pc所指单元后，pa和pc分别＋1，指向下一个单元
+            *pc++=*pa++;
+        }else{
+            *pc++=*pa++;
+        }
+    }
+
+    //以下两个中只有一个执行
+    while(pa<=pa_last)
+        *pc++=*pa++;
+    while(pb<=pb_last)
+        *pc++=*pb++;
 }
