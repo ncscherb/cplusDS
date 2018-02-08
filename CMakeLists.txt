@@ -3,4 +3,4 @@ project(cplus)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(cplus linear/seqmain.cpp )
+add_executable(cplus linear/singlelistmain.cpp)

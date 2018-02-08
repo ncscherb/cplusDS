@@ -1,10 +1,10 @@
 //单链表的主键
 
 #include <iostream>
-#include "listSingle.h"
+#include "singlelist.h"
 
 //---------------------------基本方法----------------------
-//构造一二空的线性表L
+//构造一二空的线性表L->是否加取决于在函数中使用的是地址还是地址存储的值
 void ListSingle::InitList(LinkList &L) {
     L = (LinkList)malloc(sizeof(LNode)); //产生头节点，并使L指向此头节点
     if(!L){                //存储分配失败
@@ -30,7 +30,7 @@ void ListSingle::ClearList(LinkList &L) {
     p=L->next;
 
     while(p){
-       q=p->next;
+        q=p->next;
         free(p);
         p=q;
     }
@@ -117,6 +117,69 @@ Status ListSingle::PriorElem(LinkList L, ElemType cur_e, ElemType &pre_e) {
     return INFEASIBLE;
 }
 
+//操作结果：若cur_e是L的数据元素，且不是最后一个，则用next_e返回它的后继，
+//并返回OK;否则操作失败，next_e无定义，返回INFEASIBLE
+Status ListSingle::NextElem(LinkList L, ElemType cur_e, ElemType &next_e) {
+    LinkList p;
+    p=L->next;
+
+    while(p){
+        if(p->data==cur_e){
+           if(p->next!=NULL)
+           {
+               next_e = p->next->data;
+               return OK;
+           }
+        }else{
+            p=p->next;
+        }
+    }
+
+    return INFEASIBLE;
+
+}
+
+//带头结点的单链线性表L中第i个位置之前插入元素e
+Status ListSingle::ListInsert(LinkList L, int i, ElemType e) {
+    int j=0;
+    LinkList p=L,s;
+
+    while(p&&j<i-1){ //寻找第i-1个节点，即插入节点的前一个节点
+        p=p->next;
+        j++;
+    }
+
+    if(!p||j>i-1){ //i小于1或者大于表长(此时p为空)
+        return ERROR;
+    }
+
+    s=(LinkList)malloc(sizeof(LNode)); //生成节点
+    s->data=e;
+
+    s->next=p->next; //插入L中
+    p->next=s;
+
+    return OK;
+}
+
+// 在带头结点的单链线性表L中，删除第i个元素，并由e返回其值
+Status ListSingle::ListDelete(LinkList L, int i, ElemType &e) {
+    LinkList p=L,q;
+    int j=1;
+
+    while(p&&j<i){
+        p=p->next;
+        j++;
+    }
+
+    if(!p||j>i){
+        return ERROR;
+    }
+
+    p->next=p->next->next;
+    return OK;
+}
+
 //遍历打印线性表
 void ListSingle::ListTraverse(LinkList L, void (*vi)(ElemType)) {
     LinkList p=L->next;
@@ -125,53 +188,5 @@ void ListSingle::ListTraverse(LinkList L, void (*vi)(ElemType)) {
         p=p->next;
     }
     printf("\n");
-}
-
-//-------------------------扩展方法------------------------
-//正位序（插在表尾），输入n个元素的值，建立带表头结构的单链线性表L
-//注：指针调用类或结构体中的值用->，类型变量调用用.
-void ListSingle::CreateList2(LinkList &L, int n) {
-    LinkList p,q;
-    L=(LinkList)malloc(sizeof(LNode));
-    L->next=NULL;
-    p=L;
-
-    for(int i=1;i<=n;i++){
-        q=(LinkList)malloc(sizeof(LNode));
-        q->data=i;
-        q->next=NULL;
-
-        p->next=q;
-        p=q;
-    }
-}
-
-//已知单链线性表La和Lb的元素值按非递减排列
-//归并La和Lb得到新的单链线性表Lc，Lc的元素也按值非递减排列
-//这种方式合并有问题
-void ListSingle::MergeList(LinkList La, LinkList Lb, LinkList &Lc) {
-    LinkList p,q,k;
-    p=La->next;
-    q=Lb->next;
-    k=Lc;
-
-    while (p && q){
-        if(p->data>q->data){
-            k->next=q;
-            q=q->next;
-            k=k->next;
-        } else if(p->data<q->data){
-            k->next=p;
-            p=p->next;
-            k=k->next;
-        }else{
-            k->next=p;
-            p=p->next;
-            q=q->next;
-            k=k->next;
-        }
-    }
-
-    k->next=p?p:q;
 }
 

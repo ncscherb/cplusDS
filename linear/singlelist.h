@@ -23,10 +23,6 @@ public:
     Status ListDelete(LinkList L,int i,ElemType &e);
     void ListTraverse(LinkList L,void(*vi)(ElemType));
 
-    //扩展方法
-    void CreateList2(LinkList &L,int n);
-    void MergeList(LinkList La, LinkList Lb, LinkList &Lc);
-
 };
 
 
