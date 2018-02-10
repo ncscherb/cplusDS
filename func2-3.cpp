@@ -9,3 +9,4 @@ Status equal(ElemType e1, ElemType e2){
 void printd(ElemType e){
     printf("%d",e);
 }
+
