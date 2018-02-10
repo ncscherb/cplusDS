@@ -20,8 +20,11 @@ int main(){
     cout<<e<<endl;
     StackTraverse(s,printd);
 
-    SeqStack s1=Conversion(10,8);
-    StackTraverse(s1,printd);
+    cout<<"二进制转换:";
+    Conversion2(10,2);
+    //StackTraverse(s1,printd);
+    cout<<"十六进制转换:";
+    Conversion16();
 
 
 }

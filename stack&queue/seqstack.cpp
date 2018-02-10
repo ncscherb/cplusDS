@@ -22,7 +22,7 @@ void ClearStack(SeqStack &s){
     s.top=s.base;
 }
 
-Status StackEmpy(SeqStack s){
+Status StackEmpty(SeqStack s){
     if(s.base==s.top)
         return TRUE;
     else
