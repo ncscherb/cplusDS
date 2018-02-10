@@ -1,7 +1,25 @@
-
-//-------------------------单链表扩展方法------------------------
+//-------------------------单链表扩展方法-----------------------
+//-------------------------algo2-5.cpp------------------------
 //正位序（插在表尾），输入n个元素的值，建立带表头结构的单链线性表L
 //注：指针调用类或结构体中的值用->，类型变量调用用.
+
+//逆位序（插在表头），输入n个元素的值，建立带表头结构的单链线性表L
+void CreateList(LinkList &L, int n){
+    LinkList p,q;
+
+    L = (LinkList)malloc(sizeof(LNode)); //创建头结点
+    L->next=NULL; //先建立一个带头结点的单链表
+    p=L;
+
+    for(int i=1;i<=n;i++){
+       q=(LinkList)malloc(sizeof(LNode)); //生成新节点
+        q->data=i;  //输入数据元素的值
+        q->next=p->next; //插入到表头
+        p->next=q;
+    }
+
+}
+
 void CreateList2(LinkList &L, int n) {
     LinkList p,q;
     L=(LinkList)malloc(sizeof(LNode));

@@ -18,6 +18,11 @@ int main(){
     ls.ListTraverse(l1,printd);
     CreateList2(l2,8);
     ls.ListTraverse(l2,printd);
+
+    cout<<"创建带头结点的单链表(逆序)"<<endl;
+    CreateList(l3,8);
+    ls.ListTraverse(l3,printd);
+
     cout<<"---删除元素---"<<endl;
     ls.ListDelete(l1,3,e);
     ls.ListTraverse(l1,printd);
