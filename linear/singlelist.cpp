@@ -1,4 +1,5 @@
-//单链表的主键
+//-------------bo2-2.cpp--------
+//带有头结点的单链表（存储结构由singlelist.h定义）的12个基本操作
 
 #include <iostream>
 #include "singlelist.h"

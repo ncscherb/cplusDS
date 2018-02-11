@@ -1,22 +1,19 @@
-//seqlist.cpp顺序表示的线性表的基本操作（12个）
-//存储结构由seqlist.h定义
+//--------------bo2-1.cpp-----------
+//顺序表示的线性表（存储结构由seqlist.h定义）基本操作（12个）
 
-//构造一个空的顺序线性表
+//构造一个空的顺序线性表L
 void InitList(SqList &L){
-    L.elem = (ElemType *) malloc(LIST_INI_INIT_SIZE*sizeof(ElemType));
+    L.elem=(ElemType*)malloc(LIST_INI_INIT_SIZE*sizeof(ElemType));
+    if(!L.elem)
+        exit(OVERFLOW); //存储分配失败
+    L.length=0; //空表长度为0
+    L.listsize=LIST_INI_INIT_SIZE;//初始存储容量
 
-    if(!L.elem){
-        exit(OVERFLOW);
-    }
-
-    L.length=0;
-    L.listsize=LIST_INI_INIT_SIZE;
 }
 
-//顺序线性表L已存在。
 //销毁顺序线性表L
 void DestoryList(SqList &L){
-    free(L.elem); //free释放malloc申请的空间,并不改变指针的值，本质上就是做了一些标记而已，所以指针及空间内容都还是存在的，只不过有隐患罢了。
+    free(L.elem);
     L.elem=NULL;
     L.length=0;
     L.listsize=0;

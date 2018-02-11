@@ -10,3 +10,11 @@ void printd(ElemType e){
     printf("%d",e);
 }
 
+int comp(ElemType e1,ElemType e2){
+    if(e1==e2)
+        return 0;
+    else if(e1>e2)
+        return 1;
+    else
+        return -1;
+}

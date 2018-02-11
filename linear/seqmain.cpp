@@ -56,4 +56,9 @@ int main(){
     cout<<"Ld:";
     PrintList(Ld);
 
+    cout<<"---测试归并3---"<<endl;
+    SqList Le;
+    MergeList3(La,Lb,Le);
+    cout<<"Ld:";
+    PrintList(Ld);
 }

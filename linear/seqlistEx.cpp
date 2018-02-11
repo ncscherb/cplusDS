@@ -15,6 +15,7 @@ void Union(SqList &La, SqList Lb){
     }
 }
 
+//-----------algo2-2(使用的是索引)--------------
 //已知线性表La和Lb中的元素按值非递减排列
 //归并La和Lb得到新的线性表Lc=>不去除重复元素，Lc的数据元素也按值非递减排列
 void MergeList(SqList La,SqList Lb, SqList &Lc){
@@ -67,8 +68,8 @@ void MergeList(SqList La,SqList Lb, SqList &Lc){
      */
 }
 
-
-//已知线性表La和Lb中的元素按值非递减排列--参考Algo2-3
+//-----------algo2-3(使用指针)--------------
+//已知线性表La和Lb中的元素按值非递减排列
 //归并La和Lb得到新的线性表Lc=>不去除重复元素，Lc的数据元素也按值非递减排列
 void MergeList2(SqList La, SqList Lb, SqList &Lc){
     ElemType  *pa,*pa_last,*pb,*pb_last,*pc;
@@ -100,4 +101,36 @@ void MergeList2(SqList La, SqList Lb, SqList &Lc){
         *pc++=*pa++;
     while(pb<=pb_last)
         *pc++=*pb++;
+}
+
+//--------algo2-4(使用的是指针-compare)---------
+//另一种合并线性表的方法，La、Lb、Lc都是按递增排列的表
+//第一个循环语句中的条件语句为开关语句，且当*pa=*pb时，
+//只将两者之一插入Lc。
+void MergeList3(SqList La,SqList Lb,SqList &Lc){
+    ElemType *pa,*pa_last,*pb,*pb_last,*pc;
+    pa=La.elem;
+    pb=Lb.elem;
+    Lc.listsize=La.length+Lb.length; //此句与上一句不同
+    pc=Lc.elem=(ElemType*)malloc(Lc.listsize*sizeof(ElemType));
+
+    if(!Lc.elem)
+        exit(OVERFLOW);
+    pa_last=La.elem+La.length-1;
+    pb_last=Lb.elem+Lb.length-1;
+
+    while(pa<=pa_last&&pb<=pb_last){
+        switch (comp(*pa,*pb)){
+            case 0:pb++;
+            case -1:*pc++=*pa++;
+                break;
+            case 1:*pc++=*pb++;
+        }
+    }
+
+    while (pa<=pa_last)
+        *pc++=*pa++;
+    while (pb<=pb_last)
+        *pc++=*pb++;
+    Lc.length=pc-Lc.elem;
 }
