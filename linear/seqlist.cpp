@@ -13,6 +13,8 @@ void InitList(SqList &L){
 
 //销毁顺序线性表L
 void DestoryList(SqList &L){
+    //free释放malloc申请的空间,并不改变指针的值，本质上就是做了一些标记而已，
+    // 所以指针及空间内容都还是存在的，只不过有隐患罢了。
     free(L.elem);
     L.elem=NULL;
     L.length=0;
