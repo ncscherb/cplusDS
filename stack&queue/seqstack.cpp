@@ -65,7 +65,7 @@ Status Pop(SeqStack &s,ElemType &e){
 }
 
 //从栈底到栈顶依次对栈中每个元素调用函数visit()
-void StackTraverse(SeqStack &s,void(*visit)(ElemType)){
+void StackTraverse(SeqStack s,void(*visit)(ElemType)){
     while(s.top>s.base){
         visit(*s.base++);
     }
