@@ -1,5 +1,5 @@
 //bo5-2.cpp 三元稀疏矩阵的基本操作（8个），包括算法5.1--14video
-#include "c5-2.h"
+//#include "c5-2.h"
 
 //创建稀疏矩阵M
 Status CreateSMatrix(TSMatrix &M){
@@ -157,7 +157,128 @@ void TransposeSMatrix(TSMatrix M,TSMatrix &T){
 
 //求稀疏矩阵的乘积Q=MXN
 Status MultSMatrix(TSMatrix M,TSMatrix N,TSMatrix &Q){
-    int i,j;
-    
+    int i=1,j=1,row,col,p,q=1;
+    int temp;
+
+    if(M.nu!=N.mu)
+        return ERROR;
+
+    //矩阵的乘法：M矩阵i行的所有列*N矩阵j列的所有行之和 => ij位置的值
+    for(row=1;row<=M.mu;row++){
+       for(i=1;i<=M.tu;i++){
+          if(row==M.data[i].i){
+              p=M.data[i].j; //M矩阵该行的第j个元素=>查找N矩阵对应列的第j个元素
+              for(col=1;col<=N.nu;col++){
+                  temp=0;
+                  for(j=1;j<=N.tu;j++){
+                      if(p==N.data[j].i&&col==N.data[j].j){
+                          temp+=M.data[i].e*N.data[j].e;
+                      }
+                  }
+                  if(temp!=0){
+                      Q.data[q].e=temp;
+                      Q.data[q].i=row;
+                      Q.data[q].j=col;
+                      q++;
+                  }
+              }
+          }
+       }
+    }
+    Q.mu=M.mu;
+    Q.nu=N.nu;
+    Q.tu=q-1;
+
+    if(Q.tu>MAX_SIZE)
+        return ERROR;
+    return OK;
 }
 
+Status MultSMatrix2(TSMatrix M,TSMatrix N, TSMatrix &Q){
+    int i,j;
+    ElemType *Nc,*Tc;
+    TSMatrix T;//临时矩阵
+    if(M.nu!=N.mu)
+        return ERROR;
+    T.nu=M.mu;//临时矩阵T是Q的转置矩阵
+    T.mu=N.nu;
+    T.tu=0;
+
+    Nc=(ElemType*)malloc((N.mu+1)* sizeof(ElemType));
+    Tc=(ElemType*)malloc((M.mu+1)* sizeof(ElemType));
+    if(!Nc || !Tc) //创建临时数组失败
+        exit(ERROR);
+
+    for(i=1;i<=N.nu;i++){ //对N的每一列
+        for(j=1;j<=N.mu;j++)
+           Nc[j]=0;  //矩阵Nc的初值为0
+        for(j=1;j<=M.mu;j++)
+            Tc[j]=0; //临时数组Tc的初始值为0，[0]不用
+        for(j=1;j<=N.tu;j++) //对于N的每一个非零元素
+            if(N.data[j].j==i) //属于第i列
+                //根据其所在行，将N矩阵第j列的所有元素赋值给Nc
+                Nc[N.data[j].i]=N.data[j].e;
+        //分别用M矩阵的每一行元素去乘以N矩阵的i列元素=>得到T矩阵的第i列元素
+        for(j=1;j<=M.tu;j++){
+            Tc[M.data[j].i]+=M.data[j].e*Nc[M.data[j].j];
+        }
+        for(j=1;j<=M.tu;j++)
+            if(Tc[j]!=0){
+                T.data[++T.tu].e=Tc[j];
+                T.data[T.tu].i=i;
+                T.data[T.tu].j=j;
+            }
+    }
+
+    if(T.tu>MAX_SIZE)
+        return ERROR;
+    TransposeSMatrix(T,Q);
+    DestorySMatrix(T);
+    free(Tc);
+    free(Nc);
+
+    return OK;
+}
+
+Status MultSMatrix3(TSMatrix M,TSMatrix N, TSMatrix &Q){
+    int i,j;
+    ElemType *Nc,*Tc;
+    if(M.nu!=N.mu)
+        return ERROR;
+    Q.mu=M.mu;
+    Q.nu=N.nu;
+    Q.tu=0;
+
+    Nc=(ElemType*)malloc((N.mu+1)* sizeof(ElemType));
+    Tc=(ElemType*)malloc((M.mu+1)* sizeof(ElemType));
+    if(!Nc || !Tc) //创建临时数组失败
+        exit(ERROR);
+
+    for(i=1;i<=N.nu;i++){ //对N的每一列
+        for(j=1;j<=N.mu;j++)
+            Nc[j]=0;  //矩阵Nc的初值为0
+        for(j=1;j<=M.mu;j++)
+            Tc[j]=0; //临时数组Tc的初始值为0，[0]不用
+        for(j=1;j<=N.tu;j++) //对于N的每一个非零元素
+            if(N.data[j].j==i) //属于第i列
+                //根据其所在行，将N矩阵第j列的所有元素赋值给Nc
+                Nc[N.data[j].i]=N.data[j].e;
+        //分别用M矩阵的每一行元素去乘以N矩阵的i列元素=>得到T矩阵的第i列元素
+        for(j=1;j<=M.tu;j++){
+            Tc[M.data[j].i]+=M.data[j].e*Nc[M.data[j].j];
+        }
+        for(j=1;j<=M.tu;j++)
+            if(Tc[j]!=0){
+                Q.data[++Q.tu].e=Tc[j];
+                Q.data[Q.tu].i=i;
+                Q.data[Q.tu].j=j;
+            }
+    }
+
+    if(Q.tu>MAX_SIZE)
+        return ERROR;
+    free(Tc);
+    free(Nc);
+
+    return OK;
+}

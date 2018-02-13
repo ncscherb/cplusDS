@@ -5,7 +5,7 @@ typedef int ElemType;
 #include "bo5-2.cpp"
 
 int main(){
-    TSMatrix A,B,C,D;
+    TSMatrix A,B,C,D,E;
     printf("创建矩阵A:");
     CreateSMatrix(A);
 //    PrintSMatrix(A);
@@ -24,10 +24,24 @@ int main(){
 //    SubSMatrix(A,B,C);
 //    printf("矩阵C2(A2-B2):\n");
 //    PrintSMatrix1(C);
-    printf("矩阵C3(A的转置):\n");
-    TransposeSMatrix(A,D);
-    PrintSMatrix1(D);
-    PrintSMatrix(D);
+//    printf("矩阵C3(A的转置):\n");
+//    TransposeSMatrix(A,D);
+//    PrintSMatrix1(D);
+//    PrintSMatrix(D);
 
+    printf("创建矩阵E:");
+    CreateSMatrix(E);
+
+    printf("矩阵乘积1：\n");
+    MultSMatrix(A,E,B);
+    PrintSMatrix1(B);
+
+    printf("矩阵乘积2：\n");
+    MultSMatrix(A,E,C);
+    PrintSMatrix1(C);
+
+    printf("矩阵乘积3：\n");
+    MultSMatrix(A,E,C);
+    PrintSMatrix1(C);
 }
 
