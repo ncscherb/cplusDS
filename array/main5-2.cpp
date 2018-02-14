@@ -37,11 +37,11 @@ int main(){
     PrintSMatrix1(B);
 
     printf("矩阵乘积2：\n");
-    MultSMatrix(A,E,C);
+    MultSMatrix1(A,E,C);
     PrintSMatrix1(C);
 
     printf("矩阵乘积3：\n");
-    MultSMatrix(A,E,C);
+    MultSMatrix2(A,E,C);
     PrintSMatrix1(C);
 }
 

@@ -158,32 +158,33 @@ void TransposeSMatrix(TSMatrix M,TSMatrix &T){
 //求稀疏矩阵的乘积Q=MXN
 Status MultSMatrix(TSMatrix M,TSMatrix N,TSMatrix &Q){
     int i=1,j=1,row,col,p,q=1;
-    int temp;
+    int temp[N.nu+1];//保存乘积之后每一行的值
+    int mrow[M.nu+1];
 
     if(M.nu!=N.mu)
         return ERROR;
 
     //矩阵的乘法：M矩阵i行的所有列*N矩阵j列的所有行之和 => ij位置的值
     for(row=1;row<=M.mu;row++){
-       for(i=1;i<=M.tu;i++){
-          if(row==M.data[i].i){
-              p=M.data[i].j; //M矩阵该行的第j个元素=>查找N矩阵对应列的第j个元素
-              for(col=1;col<=N.nu;col++){
-                  temp=0;
-                  for(j=1;j<=N.tu;j++){
-                      if(p==N.data[j].i&&col==N.data[j].j){
-                          temp+=M.data[i].e*N.data[j].e;
-                      }
-                  }
-                  if(temp!=0){
-                      Q.data[q].e=temp;
-                      Q.data[q].i=row;
-                      Q.data[q].j=col;
-                      q++;
-                  }
-              }
-          }
-       }
+       memset(temp,0,sizeof(int));
+       memset(mrow,0,sizeof(int));
+        //提取M第一行元素，用M第一行乘积N的所有列，得到Q的第一行
+        for(i=1;i<=M.tu;i++){
+            if(M.data[i].i==row)
+                mrow[M.data[i].j]=M.data[i].e;
+        }
+        //M矩阵第row行的第j个元素=>查找N矩阵对应列的第j个元素
+        for(j=1;j<=N.tu;j++){
+            temp[N.data[j].j]+=N.data[j].e*mrow[N.data[j].i];
+        }
+        for(int k=0;k<N.nu;k++){
+            if(temp[k]!=0){
+                Q.data[q].e=temp[k];
+                Q.data[q].i=row;
+                Q.data[q].j=col;
+                q++;
+            }
+        }
     }
     Q.mu=M.mu;
     Q.nu=N.nu;
@@ -194,7 +195,7 @@ Status MultSMatrix(TSMatrix M,TSMatrix N,TSMatrix &Q){
     return OK;
 }
 
-Status MultSMatrix2(TSMatrix M,TSMatrix N, TSMatrix &Q){
+Status MultSMatrix1(TSMatrix M,TSMatrix N, TSMatrix &Q){
     int i,j;
     ElemType *Nc,*Tc;
     TSMatrix T;//临时矩阵
@@ -240,7 +241,7 @@ Status MultSMatrix2(TSMatrix M,TSMatrix N, TSMatrix &Q){
     return OK;
 }
 
-Status MultSMatrix3(TSMatrix M,TSMatrix N, TSMatrix &Q){
+Status MultSMatrix2(TSMatrix M,TSMatrix N, TSMatrix &Q){
     int i,j;
     ElemType *Nc,*Tc;
     if(M.nu!=N.mu)
@@ -270,8 +271,8 @@ Status MultSMatrix3(TSMatrix M,TSMatrix N, TSMatrix &Q){
         for(j=1;j<=M.tu;j++)
             if(Tc[j]!=0){
                 Q.data[++Q.tu].e=Tc[j];
-                Q.data[Q.tu].i=i;
-                Q.data[Q.tu].j=j;
+                Q.data[Q.tu].i=j;
+                Q.data[Q.tu].j=i;
             }
     }
 
