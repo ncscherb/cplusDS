@@ -157,7 +157,7 @@ void TransposeSMatrix(TSMatrix M,TSMatrix &T){
 
 //求稀疏矩阵的乘积Q=MXN
 Status MultSMatrix(TSMatrix M,TSMatrix N,TSMatrix &Q){
-    int i=1,j=1,row,col,p,q=1;
+    int i=1,j=1,row,p,q=1;
     int temp[N.nu+1];//保存乘积之后每一行的值
     int mrow[M.nu+1];
 
@@ -166,8 +166,8 @@ Status MultSMatrix(TSMatrix M,TSMatrix N,TSMatrix &Q){
 
     //矩阵的乘法：M矩阵i行的所有列*N矩阵j列的所有行之和 => ij位置的值
     for(row=1;row<=M.mu;row++){
-       memset(temp,0,sizeof(int));
-       memset(mrow,0,sizeof(int));
+       memset(temp,0,(N.nu+1)*sizeof(int));
+       memset(mrow,0,(M.mu+1)*sizeof(int));
         //提取M第一行元素，用M第一行乘积N的所有列，得到Q的第一行
         for(i=1;i<=M.tu;i++){
             if(M.data[i].i==row)
@@ -177,11 +177,11 @@ Status MultSMatrix(TSMatrix M,TSMatrix N,TSMatrix &Q){
         for(j=1;j<=N.tu;j++){
             temp[N.data[j].j]+=N.data[j].e*mrow[N.data[j].i];
         }
-        for(int k=0;k<N.nu;k++){
+        for(int k=0;k<=N.nu;k++){
             if(temp[k]!=0){
                 Q.data[q].e=temp[k];
                 Q.data[q].i=row;
-                Q.data[q].j=col;
+                Q.data[q].j=k;
                 q++;
             }
         }
