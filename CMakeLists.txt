@@ -21,5 +21,6 @@ set(CMAKE_CXX_STANDARD 17)
 #-------------动态规划-硬币问题----------
 #add_executable(cplus dp/package.cpp)
 #-------------动态规划-背包问题----------
-add_executable(cplus dp/chardistance.cpp)
+#add_executable(cplus dp/chardistance.cpp )
+add_executable(cplus  dp/lis.cpp)
 
