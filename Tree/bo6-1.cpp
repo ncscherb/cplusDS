@@ -73,7 +73,7 @@ int BiTreeDepth(SqBiTree T){
 }
 
 //当T不空，用e返回T的根，并返回OK
-Status Root(SqBiTree T, ElemType &){
+Status Root(SqBiTree T, ElemType &e){
     if(BiTreeDepth(T))
         return ERROR;
     else{
@@ -88,5 +88,5 @@ Status Root(SqBiTree T, ElemType &){
 //position中level表示节点所在的层，e表示节点在本层的序号(按满二叉树算)
 ElemType Value(SqBiTree T, position e){
     //思路：首先找到本层的上一层最后一个节点的序号(2^level-1)-1，并且数组是从0开始的，故order减2
-    return T(int(pow(2,e.level-1)+e.order-2));
+    return T[int(pow(2,e.level-1)+e.order-2)];
 }
