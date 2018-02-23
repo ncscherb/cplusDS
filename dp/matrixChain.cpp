@@ -61,7 +61,6 @@ void matrixChainInit(){
 int matrixChainRe(Matrix ma[], int i, int j){
     if(i==j){
         mr[i][j]=0;
-        printf("h%d",mr[i][j]);
     }
     for(int k=i;k<j;k++){
        //int temp=matrixChainRe(ma,i,k)+matrixChainRe(ma,k+1,j)+ma[i].row*ma[k].col*ma[j].col;

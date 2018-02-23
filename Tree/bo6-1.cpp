@@ -90,3 +90,131 @@ ElemType Value(SqBiTree T, position e){
     //思路：首先找到本层的上一层最后一个节点的序号(2^level-1)-1，并且数组是从0开始的，故order减2
     return T[int(pow(2,e.level-1)+e.order-2)];
 }
+
+//e是二叉树T中某个结点（的位置）
+//给处于位置e（层，本层序号）的结点赋新值value
+Status Assign(SqBiTree T,position e,ElemType value){
+    int i=int(pow(2,e.level-1)+e.order-2);
+    //给叶节点赋非空值但双亲为非空(赋值的结点作为叶节点)
+    if(value !=Nil && T[(i+1)/2-1]==Nil)
+        return ERROR;
+    // 赋值的结点作为父结点时，若有非空子节点，该节点的值不能为空
+    else if(value==Nil&&(T[2*i+1]!=Nil || T[2*i+2]!=Nil))
+        return ERROR;
+    T[i]=value;
+
+    return OK;
+}
+
+//e是T中某个结点
+//若e是T的非根节点，则返回它的双亲，否则返回“空”
+ElemType Parent(SqBiTree T,ElemType e){
+    int i;
+
+    if(T[0]==Nil)
+        return Nil;
+
+    for(i=1;i<MAX_TREE_SIZE;i++){
+        if(e==T[i]){
+            return T[int((i+1)/2-1)];
+        }
+    }
+
+    return Nil;
+}
+
+//e是T中某个结点，返回e的左孩子，若e无左孩子，返回空
+ElemType LeftChild(SqBiTree T,ElemType e){
+    int i;
+    if(T[0]==Nil){ //空树
+        return Nil;
+    }
+
+    for(i=0;i<MAX_TREE_SIZE;i++){
+        if(e==T[i])
+            return T[2*i+1];
+    }
+
+    return Nil;
+}
+
+//e是T中某个结点，返回e的右孩子，若e无右孩子，返回空
+ElemType RightChild(SqBiTree T,ElemType e){
+    int i;
+    if(T[0]==Nil){ //空树
+        return Nil;
+    }
+
+    for(i=0;i<MAX_TREE_SIZE;i++){
+        if(e==T[i])
+            return T[2*i+2];
+    }
+
+    return Nil;
+}
+
+//e是T中某个结点
+//返回e的左兄弟，若e是T的左孩子或无左兄弟，则返回"空"
+ElemType LeftSibling(SqBiTree T,ElemType e){
+    int i;
+    if(T[0]==Nil)
+        return Nil;
+
+    for(i=0;i<MAX_TREE_SIZE;i++){
+        if(e==T[i] && i%2==0){
+            //找到e且序号为偶数（是右孩子）
+            return T[i-1];
+        }
+    }
+    return Nil;
+}
+
+//e是T中某个结点
+//返回e的右兄弟，若e是T的右孩子或无右兄弟，则返回"空"
+ElemType RightSibling(SqBiTree T,ElemType e){
+    int i;
+    if(T[0]==Nil)
+        return Nil;
+
+    for(i=0;i<MAX_TREE_SIZE;i++){
+        if(e==T[i] && i%2==1){
+            //找到e且序号为奇数（是左孩子）
+            return T[i+1];
+        }
+    }
+    return Nil;
+}
+
+//把从q的j结点开始的子树移为从T的i结点开始的子树
+//InsertChild（）用到->递归移动
+void Move(SqBiTree q, int j,SqBiTree T,int i){
+    if(q[2*j+1]!=Nil) //q的左子树不为空
+        Move(q,(2*j+1),T,2*i+1);//把q的j结点的左子树移为T结点的左子树
+    if(q[2*j+2]!=Nil)
+        Move(q,(2*j+2),T,2*i+2);
+    T[i]=q[j]; //把q的j结点移为T的i结点
+    q[j]=Nil; //把q的j结点置空
+}
+
+//p是T中某个结点的值，LR为0或1，非空二叉树c与T不相交且右子树为空
+//根据LR为0或1,插入c为T中p结点的左或又子树
+//p结点原有的左或右子树成为c的右子树
+void InsertChild(SqBiTree T, ElemType p, int LR, SqBiTree c){
+    int i,j,k=0;
+    //找到值为p的结点
+    for(i=0;i<MAX_TREE_SIZE;i++){
+        if(p==T[i])
+            break;
+    }
+
+    j=2*i+1+LR; //LR=0插入c为p节点的左子树
+
+    if(T[j]!=Nil){ //如果p原来的左子树不为空（如果要插入到左子树的话）
+         //把从T的j节点开始的子树移为从j节点右节点开始的子树(?会不会死循环)
+        Move(T,j,T,2*j+2);
+    }
+
+    Move(c,k,T,j);
+}
+
+
