@@ -66,7 +66,7 @@ void CreateFUND(MGraph &G, string filename){
         inFile>>G.vexs[i];
     for(i=0;i<G.vexnum;i++)
         for(j=0;j<G.vexnum;j++){
-            
+
         }
 
 
