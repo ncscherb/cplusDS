@@ -73,6 +73,8 @@ void CreateBiTreeRead(SqBiTree T,string filename) {
         }
     }
 
+    inFile.close();
+
 }
 
 //初始条件：二叉树T存在。
