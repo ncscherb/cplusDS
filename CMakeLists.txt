@@ -11,12 +11,13 @@ set(CMAKE_CXX_STANDARD 17)
 #------------------栈-------------------
 #add_executable(cplus stack&queue/seqstackmain.cpp)
 #add_executable(cplus stack&queue/seqstackmainChar.cpp array/c5-1.h array/bo5-1.cpp)
-add_executable(cplus  stack&queue/main3-2.cpp)
+#add_executable(cplus  stack&queue/main3-2.cpp)
 #------------第五章-数组-----------------------
 #add_executable(cplus array/main5-1.cpp )
 #add_executable(cplus array/main5-2.cpp)
 #-------------第六章-树-----------
 #add_executable(cplus  Tree/main6-1.cpp stack&queue/c3-2.h stack&queue/bo3-2.cpp stack&queue/main3-2.cpp)
+add_executable(cplus  Tree/main6-1.cpp)
 #-------------动态规划-硬币问题----------
 #add_executable(cplus dp/coin.cpp )
 #-------------动态规划-硬币问题----------
