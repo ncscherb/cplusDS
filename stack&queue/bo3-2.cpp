@@ -51,7 +51,7 @@ int QueueLength(LinkQueue Q){
 
 
 //用e返回Q的队头元素，并返回OK;
-Status GetHead(LinkQueue Q,ElemType &e){
+Status GetHead(LinkQueue Q,QElemType &e){
     QueuePtr p;
     if(Q.front==Q.rear){ //判断队列是否为空
         return ERROR;
@@ -63,7 +63,7 @@ Status GetHead(LinkQueue Q,ElemType &e){
 }
 
 //插入元素e为Q的新队尾元素
-void EnQueue(LinkQueue &Q,ElemType e){
+void EnQueue(LinkQueue &Q,QElemType e){
     QueuePtr p;
     if(!(p=(QueuePtr)malloc(sizeof(QNode))))//存储空间分配失败
         exit(OVERFLOW);
@@ -74,7 +74,7 @@ void EnQueue(LinkQueue &Q,ElemType e){
 }
 
 //删除Q的队头元素，用e返回其值，并返回OK
-Status DeQueue(LinkQueue &Q, ElemType &e){
+Status DeQueue(LinkQueue &Q, QElemType &e){
     QueuePtr p;
     if(Q.rear==Q.front)
         return ERROR;
@@ -88,7 +88,7 @@ Status DeQueue(LinkQueue &Q, ElemType &e){
 }
 
 //从队头到队尾依次对队列Q中每个元素调用函数vi()
-void QueueTraverse(LinkQueue Q,void(*vi)(ElemType)){
+void QueueTraverse(LinkQueue Q,void(*vi)(QElemType)){
     QueuePtr p;
     p=Q.front->next;
 

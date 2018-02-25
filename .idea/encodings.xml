@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/Tree/BO7-11.CPP" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cmake-build-debug/ed.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/graph/BO7-11.CPP" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/graph/BO7-2.CPP" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/graph/C7-2.H" charset="GBK" />
   </component>
 </project>

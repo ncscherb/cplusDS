@@ -1,7 +1,7 @@
 // c3-2.h 单链队列--队列的链式存储结构
 //这是队列中的每一个节点
 typedef struct QNode{
-    ElemType data;
+    QElemType data;
     QNode *next;
 } *QueuePtr;
 

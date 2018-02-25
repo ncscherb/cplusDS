@@ -323,3 +323,96 @@ void Display(MGraph G){
         }
     }
 }
+
+//v和w是G中两个顶点，在G总增加弧<v,w>，若G是无向的，则还增添对称<w,v>
+Status InsertArc(MGraph &G,VertexType v,VertexType){
+    int i,l,v1,w1;
+    char s[MAX_INFO];
+    v1=LocateVex(G,v); //头
+    v1=LocateVex(G,w); //尾
+
+    if(v1<0 || w1<0)
+        return ERROR;
+    G.arcnum++;
+    if(G.kind%2) //如果是网
+    {
+        printf("请输入此弧或边的权值：");
+        scanf("%d",&G.arcs[i][j].adj);
+    } else //图
+        G.arcs[i][j].adj=1;
+
+    printf("是否有该弧或边的相关信息(0:无 1:有)：");
+    scanf("%d%*c",&i); //%*c吃掉回车
+    if(i){
+        printf("请输入该弧或边的相关信息(<%d个字符)：",MAX_INFO);
+        gets(s);
+        l=strlen(s);
+        if(l){
+            G.arcs[v1][w1].info=(char*)malloc((l+1)*sizeof(char));
+            strcpy(G.arcs[v1][w1].info,s);
+        }
+    }
+
+    if(G.kind>1){//无向
+        G.arcs[w1][v1].adj=G.arcs[v1][w1].adj;
+        G.arcs[w1][v1].info=G.arcs[v1][w1].info;//指向同一个相关信息
+    }
+
+    return OK;
+}
+
+//v和w是G中两个顶点，在G中删除弧<v,w>，若G是无向的，则还删除对称弧<w,v>
+Status DeleteArc(MGraph &G,VertexType v,VertexType w){
+    int v1,w1,j=0;
+    if(G.kind%2)
+        j=INT_MAX;
+    v1=LocateVex(G,v);
+    w1=LocateVex(G,w);
+    if(v1<0||w1<0)
+        return ERROR;
+    G.arcs[v1][w1].adj=j;
+    if(G.arcs[v1][w1].info){//有其他信息
+        free(G.arcs[v1][w1].info);
+        G.arcs[v1][w1].info=NULL;
+    }
+    if(G.kind>=2){//无向，删除对称弧<w,v>
+        G.arcs[w1][v1].adj=j;
+        if(G.arcs[w1][v1].info){
+            free(G.arcs[w1][v1].info);
+            G.arcs[w1][v1].info=NULL;
+        }
+    }
+    G.arcnum--;
+    return OK;
+}
+
+Boolean visited[MAX_VERTEX_NUM]; //访问标志数组（全局变量）
+void(*VisitFunc)(VertexType); //函数变量
+
+//从第v个顶点出发递归第深度优先遍历图G，算法7.5
+//从第一个顶点访问第二个，再访问第三个
+void DFS(MGraph G,int v){
+    int w;
+    visited[v]=TRUE; //设置访问标标志为TRUE（已访问）
+    VisitFunc(G.vexs[v]); //访问第v个顶点
+
+    for(w=FirstAdjVex(G,v);w>=0;w=NextAdjVex(G,v,w))
+        if(!visited[w])
+            DFS(G,w); //对v的尚未访问的序号为w的邻接顶点递归调用DFS
+}
+
+//图G存在，Visit是顶点的应用。算法7.4
+//操作结果:从第一个顶点其，深度优先遍历图G，并对每个顶点调用函数visit一个，且仅一次
+void DFSTraverse(MGraph G,void(*Visit)(VertexType)){
+    int v;
+    //使用全局变量VisitFunc，使DFS不必设函数指针参数
+    VisitFunc=Visit;
+    for(v=0;v<G.vexnum;v++)
+        visited[v]=FALSE; //访问标志数组初始化（未被访问）
+    for(v=0;v<G.vexnum;v++)//可以遍历孤立点
+        if(!visited[v])
+            DFS(G,v); //对尚未访问的顶点v调用DFS
+    printf("\n");
+}
+
+
