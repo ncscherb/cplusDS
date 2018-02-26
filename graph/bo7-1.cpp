@@ -192,7 +192,7 @@ int FirstAdjVex(MGraph G,VertexType v){
     if(G.kind%2) //网
         j=INT_MAX;
     for(i=0;i<G.vexnum;i++){ //找到第一个顶点
-        if(G.arcs[k][i].adj==j)
+        if(G.arcs[k][i].adj!=j)
             return i;
     }
 
@@ -223,9 +223,9 @@ void InsertVex(MGraph &G,VertexType v){
         j=INT_MAX;
     strcpy(G.vexs[G.vexnum],v); //构造新的顶点向量
     for(i=0;i<=G.vexnum;i++){
-        G.arcs[G.vexnum][i].adj=j;
+        G.arcs[G.vexnum][i].adj=G.arcs[i][G.vexnum].adj=j;
         //初始化新增行、新增列邻接矩阵的值（无边或弧）
-        G.arcs[G.vexnum][i].info=NULL; //初始化相关信息指针
+        G.arcs[G.vexnum][i].info=G.arcs[i][G.vexnum].info=NULL; //初始化相关信息指针
     }
 
     G.vexnum++;
@@ -282,54 +282,12 @@ Status DeleteVex(MGraph &G,VertexType v){
     return OK;
 }
 
-//输出邻接矩阵存储表示的图G
-void Display(MGraph G){
-    int i,j;
-    char s[7];
-    switch(G.kind){
-        case DG: strcpy(s,"有向图");
-            break;
-        case DN: strcpy(s,"有向网");
-            break;
-        case UDG: strcpy(s,"无向图");
-            break;
-        case UDN: strcpy(s,"无向网");
-            break;
-    }
-
-    printf("%d个顶点%d条边或弧的%s。顶点依次是：",G.vexnum,G.arcnum,s);
-    for(i=0;i<G.vexnum;i++)
-        printf("%s ",G.vexs[i]);
-    printf("\nG.arcs.adj:\n");
-    for(i=0;i<G.vexnum;i++){
-        for(j=0;j<G.vexnum;j++)
-            printf("%11d",G.arcs[i][j].adj);
-        printf("\n");
-    }
-
-    printf("G.arcs.info:\n");//输出G.arcs.info
-    printf("顶点1（弧尾） 顶点2（弧头） 该边或弧的信息：\n");
-    for(i=0;i<G.vexnum;i++){
-        if(G.kind<2){//有向
-            for(j=0;j<G.vexnum;j++)
-                if(G.arcs[i][j].info)
-                    printf("%5s %11s     %s\n",G.vexs[i],G.vexs[j],G.arcs[i][j].info);
-        }else{ //无向，输出上三角
-           for(j=i+1;j<G.vexnum;j++){
-               if(G.arcs[i][j].info)
-                   printf("%5s %11s     %s\n",G.vexs[i],G.vexs[j],G.arcs[i][j].info);
-
-           }
-        }
-    }
-}
-
 //v和w是G中两个顶点，在G总增加弧<v,w>，若G是无向的，则还增添对称<w,v>
-Status InsertArc(MGraph &G,VertexType v,VertexType){
+Status InsertArc(MGraph &G,VertexType v,VertexType w){
     int i,l,v1,w1;
     char s[MAX_INFO];
     v1=LocateVex(G,v); //头
-    v1=LocateVex(G,w); //尾
+    w1=LocateVex(G,w); //尾
 
     if(v1<0 || w1<0)
         return ERROR;
@@ -337,12 +295,12 @@ Status InsertArc(MGraph &G,VertexType v,VertexType){
     if(G.kind%2) //如果是网
     {
         printf("请输入此弧或边的权值：");
-        scanf("%d",&G.arcs[i][j].adj);
+        scanf("%d",&G.arcs[v1][w1].adj);
     } else //图
-        G.arcs[i][j].adj=1;
+        G.arcs[v1][w1].adj=1;
 
     printf("是否有该弧或边的相关信息(0:无 1:有)：");
-    scanf("%d%*c",&i); //%*c吃掉回车
+    scanf("%d",&i); //%*c吃掉回车
     if(i){
         printf("请输入该弧或边的相关信息(<%d个字符)：",MAX_INFO);
         gets(s);
@@ -389,14 +347,14 @@ Status DeleteArc(MGraph &G,VertexType v,VertexType w){
 Boolean visited[MAX_VERTEX_NUM]; //访问标志数组（全局变量）
 void(*VisitFunc)(VertexType); //函数变量
 
-//从第v个顶点出发递归第深度优先遍历图G，算法7.5
+//从第v(v是顶点序号)个顶点出发递归第深度优先遍历图G，算法7.5
 //从第一个顶点访问第二个，再访问第三个
 void DFS(MGraph G,int v){
     int w;
     visited[v]=TRUE; //设置访问标标志为TRUE（已访问）
     VisitFunc(G.vexs[v]); //访问第v个顶点
 
-    for(w=FirstAdjVex(G,v);w>=0;w=NextAdjVex(G,v,w))
+    for(w=FirstAdjVex(G,G.vexs[v]);w>=0;w=NextAdjVex(G,G.vexs[v],G.vexs[w]))
         if(!visited[w])
             DFS(G,w); //对v的尚未访问的序号为w的邻接顶点递归调用DFS
 }
@@ -415,4 +373,81 @@ void DFSTraverse(MGraph G,void(*Visit)(VertexType)){
     printf("\n");
 }
 
+typedef VRType QElemType; //队列元素类型
+#include "../stack&queue/c3-2.h"
+#include "../stack&queue/bo3-2.cpp"
+
+//从第一个顶点起，按广度优先非递归遍历图G，并对每个顶点调用一次visit函数，且一次
+void BFSTraverse(MGraph G,void(*Visit)(VertexType)){
+    int i,v,w;
+    LinkQueue q; //使用辅助队列Q和访问标志数组visited
+    InitQueue(q); //置空的辅助队列Q
+    for(i=0;i<G.vexnum;i++)
+        visited[i]=FALSE; //置初值
+    for(i=0;i<G.vexnum;i++)
+        if(!visited[i]){//v尚未访问
+            EnQueue(q,i);
+            Visit(G.vexs[i]);
+            visited[i]=TRUE;
+            while(!QueueEmpty(q)){
+                DeQueue(q,v);
+                for(w=FirstAdjVex(G,G.vexs[v]);w>=0;w=NextAdjVex(G,G.vexs[v],G.vexs[w])){
+                    if(!visited[w]){
+                        Visit(G.vexs[w]);
+                        visited[w]=TRUE;
+                        EnQueue(q,w);
+                    }
+                }
+            }
+
+        }
+    printf("\n");
+}
+
+//输出邻接矩阵存储表示的图G
+void Display(MGraph G){
+    int i,j;
+    char s[7];
+    switch(G.kind){
+        case DG: strcpy(s,"有向图");
+            break;
+        case DN: strcpy(s,"有向网");
+            break;
+        case UDG: strcpy(s,"无向图");
+            break;
+        case UDN: strcpy(s,"无向网");
+            break;
+    }
+
+    printf("%d个顶点%d条边或弧的%s。顶点依次是：",G.vexnum,G.arcnum,s);
+    for(i=0;i<G.vexnum;i++)
+        printf("%s ",G.vexs[i]);
+
+    printf("\nG.arcs.adj:\n");
+    for(i=0;i<G.vexnum;i++)
+        printf("%11s",G.vexs[i]);
+    printf("\n");
+    for(i=0;i<G.vexnum;i++){
+        printf("%s",G.vexs[i]);
+        for(j=0;j<G.vexnum;j++)
+            printf("%11d",G.arcs[i][j].adj);
+        printf("\n");
+    }
+
+    printf("G.arcs.info:\n");//输出G.arcs.info
+    printf("顶点1（弧尾） 顶点2（弧头） 该边或弧的信息：\n");
+    for(i=0;i<G.vexnum;i++){
+        if(G.kind<2){//有向
+            for(j=0;j<G.vexnum;j++)
+                if(G.arcs[i][j].info)
+                    printf("%5s %11s     %s\n",G.vexs[i],G.vexs[j],G.arcs[i][j].info);
+        }else{ //无向，输出上三角
+            for(j=i+1;j<G.vexnum;j++){
+                if(G.arcs[i][j].info)
+                    printf("%5s %11s     %s\n",G.vexs[i],G.vexs[j],G.arcs[i][j].info);
+
+            }
+        }
+    }
+}
 

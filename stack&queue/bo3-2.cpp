@@ -82,7 +82,7 @@ Status DeQueue(LinkQueue &Q, QElemType &e){
     e=p->data;
     Q.front->next=p->next;
     if(Q.rear==p)
-        Q.front=Q.rear;
+        Q.rear=Q.front;
     free(p);
     return OK;
 }

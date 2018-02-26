@@ -12,14 +12,43 @@ void visit(VertexType i){
 }
 
 int main(){
-    int i,j,k;
+    int i,j,k,n;
     MGraph g;
     VertexType v1,v2;
+    //构造图
     CreateFUDG(g,"E:\\Users\\cplusDS\\graph\\F7-1.TXT");
     Display(g); //输出图g
+    printf("深度优先遍历：");
+    DFSTraverse(g,visit);
+    printf("广度优先遍历：");
+    //BFSTraverse(g,visit);
     printf("\n***********************\n");
-    DeleteVex(g,"b");
+    printf("插入新顶点，请输入顶点的值：");
+    scanf("%s",v1);
+    InsertVex(g,v1);
+    printf("插入与新顶点有关的弧或边，请输入弧或边数：");
+    scanf("%d",&n);
+    for(i=0;i<n;i++){
+        printf("请输入第%d条边另一顶点的值：",i+1);
+        scanf("%s",v2);
+        if(g.kind<=1){
+            printf("对于有向图或网，请输入另一顶点的方向（0：弧头 1：弧尾）");
+            scanf("%d",&j);
+            if(j) //v2是弧尾
+                InsertArc(g,v2,v1);
+            else //v2是弧头
+                InsertArc(g,v1,v2);
+        } else{
+            InsertArc(g,v1,v2);
+        }
+    }
     Display(g);
+    printf("深度优先遍历：");
+    DFSTraverse(g,visit);
+    printf("广度优先遍历：");
+    BFSTraverse(g,visit);
+    printf("\n***********************\n");
+    //DeleteVex(g,"b");
 
 }
 
