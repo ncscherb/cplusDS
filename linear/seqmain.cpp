@@ -3,7 +3,7 @@
 typedef int ElemType;
 #include "../c1.h"
 #include "seqlist.h"
-#include "../func2-3.cpp"
+#include "func2-3.cpp"
 #include "seqlist.cpp"
 #include "seqlistEx.cpp"
 using namespace std;

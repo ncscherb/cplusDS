@@ -1,7 +1,7 @@
 typedef int ElemType ;
 #include "../c1.h"
 #include "seqstack.cpp"
-#include "../func2-3.cpp"
+#include "../linear/func2-3.cpp"
 #include "seqstackEx.cpp"
 using namespace std;
 

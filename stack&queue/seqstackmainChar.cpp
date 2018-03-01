@@ -3,7 +3,7 @@ typedef char ElemType ;
 #include <fstream> //引入读写文件头文件
 using namespace std;
 #include "seqstack.cpp"
-#include "../func2-3.cpp"
+#include "../linear/func2-3.cpp"
 #include "seqstackEx.cpp"
 
 int main(){

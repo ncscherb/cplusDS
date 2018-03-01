@@ -1,7 +1,7 @@
 typedef int ElemType;
 #include "../c1.h";
 #include "singlecircletaillist.cpp"
-#include "../func2-3.cpp"
+#include "func2-3.cpp"
 using namespace std;
 
 int main(){

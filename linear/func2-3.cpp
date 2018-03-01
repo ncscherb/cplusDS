@@ -1,4 +1,5 @@
 //func2-3 几个常用函数
+//判断是否相等的函数
 Status equal(ElemType e1, ElemType e2){
     if(e1==e2)
         return TRUE;

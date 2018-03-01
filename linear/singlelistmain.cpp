@@ -3,7 +3,7 @@
 typedef int ElemType;
 #include "../c1.h"
 #include "singlelist.cpp"
-#include "../func2-3.cpp"
+#include "func2-3.cpp"
 #include "singlelistEx.cpp"
 using namespace std;
 
