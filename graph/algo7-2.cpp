@@ -63,7 +63,7 @@ void MiniSpanTree_PRIM(MGraph G, VertexType u){
         //构造与顶点k相邻的边和顶点信息
         for(j=0;j<G.vexnum;j++){
             if(G.arcs[k][j].adj<closedge[j].lowcost){
-            //if(closedge[j].lowcost!=0){
+            //if(closedge[j].lowcost!=0){-->该种方法未考虑不能联通情况
                 strcpy(closedge[j].adjvex,G.vexs[k]);
                 closedge[j].lowcost=G.arcs[k][j].adj;
             }
@@ -80,7 +80,4 @@ int main(){
     MiniSpanTree_PRIM(g,g.vexs[0]);
 
 }
-
-
-
 

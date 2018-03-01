@@ -20,7 +20,7 @@ set(CMAKE_CXX_STANDARD 17)
 #-------------第七章-图-----------
 #add_executable(cplus  graph/main7-1.cpp )
 #--------------最小生成树-----------------
-add_executable(cplus graph/algo7-2.cpp)
+add_executable(cplus graph/algo7-2.cpp linear/bo2-8.cpp)
 #-------------动态规划-硬币问题----------
 #add_executable(cplus dp/coin.cpp )
 #-------------动态规划-硬币问题----------

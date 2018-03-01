@@ -1,6 +1,6 @@
 //--------------bo2-4.cpp(85ppt)-------
 //设立尾指针（L指向尾节点）的单循环链表（存储结构由singlelist.h定义）的12基本操作
-#include "singlelist.h"
+#include "c2-2.h"
 
 //构造一个空的线性表L
 void InitList(LinkList &L){
