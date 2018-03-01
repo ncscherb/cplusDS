@@ -300,7 +300,7 @@ Status InsertArc(MGraph &G,VertexType v,VertexType w){
         G.arcs[v1][w1].adj=1;
 
     printf("是否有该弧或边的相关信息(0:无 1:有)：");
-    scanf("%d",&i); //%*c吃掉回车
+    scanf("%d%*c",&i); //%*c吃掉回车
     if(i){
         printf("请输入该弧或边的相关信息(<%d个字符)：",MAX_INFO);
         gets(s);

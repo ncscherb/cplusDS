@@ -58,6 +58,7 @@ void matrixChainInit(){
     }
 }
 
+//备忘录法
 int matrixChainRe(Matrix ma[], int i, int j){
     if(i==j){
         mr[i][j]=0;
