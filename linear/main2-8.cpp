@@ -4,9 +4,10 @@ typedef int ElemType;
 #include "c2-2.h"
 #include "bo2-8.cpp"
 #include "func2-3.cpp"
+#include "func2-1.cpp"
 
 int main(){
-    LinkList L;
+    LinkList L,p;
     ElemType e,e0;
     Status i;
     int j,k;
@@ -70,6 +71,12 @@ int main(){
     }
     printf("依次输出L的元素：");
     ListTraverse(L,printd);
+    printf("非降序插入元素：");
+    InsertAscend(L,20,comp);
+    InsertAscend(L,10,comp);
+    ListTraverse(L,printd);
+    if(Point(L,10,equal,p))
+        printf("返回前驱节点：%d\n",p->data);
     DestoryList(L);
     printf("销毁L后，L=%u\n",L);
 

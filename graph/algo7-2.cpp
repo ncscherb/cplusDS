@@ -74,7 +74,7 @@ void MiniSpanTree_PRIM(MGraph G, VertexType u){
 
 int main(){
     MGraph g;
-    CreateFUND(g,"E:\\Users\\cplusDS\\graph\\algo7-2"); //构造无向网--一定是连通的
+    CreateFUND(g,"E:\\Users\\cplusDS\\graph\\algo7-2.txt"); //构造无向网--一定是连通的
     Display(g);//输出图
     //用普里姆算法从g的第1个顶点出发，输出最小生成树的各条边
     MiniSpanTree_PRIM(g,g.vexs[0]);

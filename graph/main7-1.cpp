@@ -16,7 +16,7 @@ int main(){
     MGraph g;
     VertexType v1,v2;
     //构造图
-    CreateFUDG(g,"E:\\Users\\cplusDS\\graph\\F7-1.TXT");
+    CreateFUDG(g,"E:\\Users\\cplusDS\\graph\\f7-1.txt");
     Display(g); //输出图g
     printf("深度优先遍历：");
     DFSTraverse(g,visit);

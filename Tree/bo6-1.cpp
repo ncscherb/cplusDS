@@ -53,12 +53,12 @@ void CreateBiTreeRead(SqBiTree T,string filename) {
 
     ifstream inFile{filename};
     if (!inFile.is_open()) {
-        printf("Failed to open file: %s\n", filename.c_str());
+        printf("Failed to open main6-1: %s\n", filename.c_str());
         exit(ERROR);
     }
 
     while (TRUE) {
-        inFile >> T[i]; //read a value from the file
+        inFile >> T[i]; //read a value from the main6-1
         if (inFile.eof()) break;
         //cout << T[i] << endl;
         i++;

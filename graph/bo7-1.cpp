@@ -19,7 +19,7 @@ void CreateFUDG(MGraph &G, string filename){
     ifstream inFile(filename,ios::out);
 
     if (!inFile.is_open()) {
-        printf("Failed to open file: %s\n", filename.c_str());
+        printf("Failed to open main6-1: %s\n", filename.c_str());
         exit(ERROR);
     }
 
@@ -53,7 +53,7 @@ void CreateFUND(MGraph &G, string filename){
     VertexType va,vb;
     ifstream inFile(filename,ios::out);
     if(!inFile.is_open()){
-        printf("can not open the file:%s",filename.c_str());
+        printf("can not open the main6-1:%s",filename.c_str());
         inFile.close();
         exit(ERROR);
     }
@@ -83,7 +83,7 @@ void CreateFDG(MGraph &G, string filename){
     VertexType va,vb;
     ifstream inFile(filename,ios::out);
     if(!inFile.is_open()){
-        printf("can not open the file:%s",filename.c_str());
+        printf("can not open the main6-1:%s",filename.c_str());
         inFile.close();
         exit(ERROR);
     }
