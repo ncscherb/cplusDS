@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 #设立尾指针的单循环链表
 #add_executable(cplus linear/singlecircletaillistmain.cpp)
 #不带头结点的单链表
-add_executable(cplus linear/main2-8.cpp)
+add_executable(cplus linear/main2-8.cpp graph/c7-21.cpp)
 #------------------栈-------------------
 #add_executable(cplus stack&queue/seqstackmain.cpp)
 #add_executable(cplus stack&queue/seqstackmainChar.cpp array/c5-1.h array/bo5-1.cpp)
