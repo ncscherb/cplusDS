@@ -1,6 +1,6 @@
 //线性表的单链表存储结构--头文件 bo2-2.cpp
 
-struct LNode{
+struct LNode1{
     ElemType data; //用于存储数据
     LNode *next;  //用于指向下一个节点
 };

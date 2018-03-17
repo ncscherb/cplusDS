@@ -32,26 +32,6 @@ void InsertAscend(LinkList &L,ElemType e,int(*compare)(ElemType,ElemType)){
 //无定义。函数equal()的两形参的关键字相等，返回OK；否则返回ERROR
 //Point返回的是与e相等的节点，p是该节点的前驱
 LinkList Point(LinkList L,ElemType e, Status(*equal)(ElemType,ElemType),LinkList &p){
-    LinkList q=L;
-
-    p=NULL;
-    if(!q)
-        return NULL;
-    if(q->data==e)
-        return q;
-
-    while (q->next){
-        if(equal(q->next->data,e)){
-            p=q;
-            return q->next;
-        }
-        q=q->next;
-    }
-
-    return NULL;
-}
-
-LinkList Point1(LinkList L,ElemType e, Status(*equal)(ElemType,ElemType),LinkList &p){
     int i,j;
     i=LocateElem(L,e,equal);
     if(i){//找到
@@ -70,7 +50,7 @@ LinkList Point1(LinkList L,ElemType e, Status(*equal)(ElemType,ElemType),LinkLis
 //删除表L中满足条件的节点，并返回TRUE；如果无此节点，返回FALSE
 Status DeleteElem(LinkList &L,ElemType &e,Status(*equal)(ElemType,ElemType)){
     LinkList p,q;
-    q=Point1(L,e,equal,p);
+    q=Point(L,e,equal,p);
     if(q){//找到该节点
         if(!p){//如果是首节点
             ListDelete(L,1,e);

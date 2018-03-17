@@ -150,4 +150,13 @@ Status DeleteVex(ALGraph &G,VertexType v){
     ElemType e;
     LinkList p,p1;
 
+    j=LocateElem(G,v); //v顶点的位置
+    i=ListLength(G.vertices[j].firstarc); //以j为节点的出弧和入弧的个数
+    //删除顶点v相关的边
+    //如果是网，还要删除权重
+    if(G.kind%2){
+        
+    }
+
+
 }

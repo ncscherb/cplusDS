@@ -1,6 +1,6 @@
 //c7-21.h 图的邻接表存储表示（与单链表的变量类型建立联系）
 #define MAX_VERTEX_NUM 20
-enum GraphKind{DG,DN,UDG,UDN};//{有向图，有向网，无向图，无向网}
+enum GraphKind{DG=0,DN=1,UDG=2,UDN=3};//{有向图，有向网，无向图，无向网}
 struct ElemType{ //加
     int adjvex; //该弧指向的顶点位置
     InfoType *info; //网的权值指针
