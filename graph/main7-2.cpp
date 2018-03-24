@@ -16,5 +16,7 @@ int main(){
     int i,j,k,n;
     ALGraph g;
     VertexType v1,v2;
+    CreateGraphF(g);
+    Display(g);
 
 }
