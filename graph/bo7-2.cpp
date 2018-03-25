@@ -204,6 +204,67 @@ Status DeleteVex(ALGraph &G,VertexType v){
     return OK;
 }
 
+//在G中增添弧<v,w>,若G是无向的，则还增添对称弧
+Status InsertArc(ALGraph &G,VertexType v,VertexType w){
+    int i,j,k;
+    ElemType e;
+    ArcNode *p;
+
+    i=LocateVex(G,v);
+    j=LocateVex(G,w);
+    if(i<0||j<0)
+        return ERROR;
+
+    e.adjvex=j;
+    e.info=NULL;
+    G.arcnum++;
+
+    if(G.kind%2){//网
+        e.info=(InfoType *)malloc(sizeof(InfoType));
+
+        printf("请输入边或弧%s->%s的权值：",v,w);
+        scanf("%d",e.info);
+    }
+    ListInsert(G.vertices[i].firstarc,1,e);
+
+    if(G.kind>1){//无向，还要插入对边
+        e.adjvex=i;
+        ListInsert(G.vertices[j].firstarc,1,e);
+    }
+    return OK;
+}
+
+//在G中删除弧<v,w>，若G是无向的，则还要删除对称弧
+Status DeleteArc(ALGraph &G,VertexType v,VertexType w){
+    int i,j;
+    ElemType e;
+    Status k;
+
+    i=LocateVex(G,v);
+    j=LocateVex(G,w);
+
+    if(i<0||j<0||i==j)
+        return ERROR;
+
+    e.adjvex=j;
+
+    k=DeleteElem(G.vertices[i],e,equalvex); //删除的元素由e返回
+    if(k){
+        G.arcnum--;
+        if(G.kind%2) //网
+            free(e.info);
+        if(G.kind>=2){
+            e.adjvex=i;
+            DeleteElem(G.vertices[j].firstarc,e,equalvex);
+
+            if(G.kind%2)
+                free(e.info);
+        }
+        return OK;
+    } else //没有找到待删除的弧
+        return ERROR;
+}
+
 //输出图的邻接矩阵
 void Display(ALGraph G){
     int i;

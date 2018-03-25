@@ -18,5 +18,23 @@ int main(){
     VertexType v1,v2;
     CreateGraphF(g);
     Display(g);
+    printf("插入新顶点，请输入顶点的值：");
+    scanf("%s",v1);
+    InsertVex(g,v1);
+    printf("插入与新顶点有关的边或弧，请输入弧或边数：");
+    scanf("%d",&n);
+    for(k=0;k<n;k++){
+        printf("请输入另一顶点的值：");
+        scanf("%s",v2);
+        if(g.kind<=1){
+            printf("对于有向图或网，请输入另一顶点的方向（0：弧头 1：弧尾）");
+            scanf("%d",&j);
+        }
+        if(j)
+            InsertArc(g,v2,v1);
+        else
+            InsertArc(g,v1,v2);
+    }
+    Display(g);
 
 }
