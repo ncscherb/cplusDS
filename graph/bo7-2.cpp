@@ -265,6 +265,68 @@ Status DeleteArc(ALGraph &G,VertexType v,VertexType w){
         return ERROR;
 }
 
+Boolean visited[MAX_VERTEX_NUM];//访问标志数组（全局变量）
+void(*VisitFunc)(char* v); //函数全局变量
+//深度优先遍历--从第v个顶点出发递归地深度优先遍历图G
+vlid DFS(ALGraph G,int v){
+    int i;
+    VisitFunc(G.vertices[v].data);
+    for(i=FirstAdjVex(G,G.vertices[v].data);i>=0;i=NextAdjVex(G,G.vertices[v].data,G.vertices[i].data)){
+        if(!visited[i])
+            DFS(G,i); //对未访问的节点递归调用dfs
+    }
+}
+
+//对图G作深度优先遍历-调用DFS
+void DFSTraverse(ALGraph G,void(*Visit)(char*)){
+    int i;
+
+    VisitFunc=Visit;
+    for(i=0;i<G.vexnum;i++)
+        visited[i]=FALSE;
+
+    for(i=0;i<G.vexnum;i++){
+        if(!visited[i]){
+            DFS(G,i);
+        }
+    }
+    printf("\n");
+}
+
+typedef int QElemType;
+#include "../stack&queue/c3-2.h"
+#include "../stack&queue/b3-2.cpp"
+//按广度优先非递归遍历图G。使用辅助队列Q和访问标志数组visited
+void BFSTraverse(ALGraph G,void(*Visit)(char *)){
+    int i,v,w;
+    LinkQueue q;
+    InitQueue(q);
+
+    for(i=0;i<G.vexnum;i++)
+        visited[i]=FALSE;
+
+    for(i=0;i<G.vexnum;i++){
+        if(!visited[i]){
+            EnQueue(q,i);
+            Visit(G.vertices[i].data);
+            visited[v]=TRUE;
+
+            while (!EmptyQueue(q)){
+                v=DeQueue(q);
+                for(w=FirstAdjVex(G,G.vertices[v].data);w>-1;w=NextAdjVex(G,G.vertices[v].data,G.vertices[w].data)){
+                    if(!visited[w]){
+                        Visit(G.vertices[w].data);
+                        visited[w]=TRUE;
+                        EnQueue(q,w);
+                    }
+                }
+            }
+        }
+    }
+    printf("\n");
+
+}
+
 //输出图的邻接矩阵
 void Display(ALGraph G){
     int i;
