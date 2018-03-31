@@ -163,20 +163,20 @@ Status DeleteVex(ALGraph &G,VertexType v){
     //如果是网，还要删除权重
     if(G.kind%2){
         for(k=0;k<i;k++){
-            ListDelete(G.vertices[i].firstarc,1,e);
+            ListDelete(G.vertices[j].firstarc,1,e); //依次获取权重删除
             free(e.info);
         }
     }else{
-        DestoryList(G.vertices[i].firstarc);
+        DestoryList(G.vertices[j].firstarc);
     }
     G.arcnum-=i;
 
-    for(k=i;k<G.vexnum;k++)
-        strcpy(G.vertices[i-1].data,G.vertices[i].data);
+    for(k=j;k<G.vexnum-1;k++)
+        G.vertices[k]=G.vertices[k+1];
     G.vexnum--;
 
     //1.注意判断是否是有向图--边减1
-    //2.判断四否是有权重--释放权重
+    //2.判断是否是有权重--释放权重
     for(i=0;i<G.vexnum;i++){
         e.adjvex=j;
         p=Point(G.vertices[i].firstarc,e,equalvex,p1);
@@ -193,7 +193,7 @@ Status DeleteVex(ALGraph &G,VertexType v){
         free(p);
 
         //对于adjvex域,节点序号>j的节点，其序号-1
-        for(k=j+1;k<G.vexnum;k++){
+        for(k=j+1;k<=G.vexnum;k++){
             e.adjvex=k;
             p=Point(G.vertices[i].firstarc,e,equalvex,p1);
             if(p)
@@ -248,7 +248,7 @@ Status DeleteArc(ALGraph &G,VertexType v,VertexType w){
 
     e.adjvex=j;
 
-    k=DeleteElem(G.vertices[i],e,equalvex); //删除的元素由e返回
+    k=DeleteElem(G.vertices[i].firstarc,e,equalvex); //删除的元素由e返回
     if(k){
         G.arcnum--;
         if(G.kind%2) //网
@@ -268,7 +268,7 @@ Status DeleteArc(ALGraph &G,VertexType v,VertexType w){
 Boolean visited[MAX_VERTEX_NUM];//访问标志数组（全局变量）
 void(*VisitFunc)(char* v); //函数全局变量
 //深度优先遍历--从第v个顶点出发递归地深度优先遍历图G
-vlid DFS(ALGraph G,int v){
+void DFS(ALGraph G,int v){
     int i;
     VisitFunc(G.vertices[v].data);
     for(i=FirstAdjVex(G,G.vertices[v].data);i>=0;i=NextAdjVex(G,G.vertices[v].data,G.vertices[i].data)){
@@ -295,24 +295,24 @@ void DFSTraverse(ALGraph G,void(*Visit)(char*)){
 
 typedef int QElemType;
 #include "../stack&queue/c3-2.h"
-#include "../stack&queue/b3-2.cpp"
+#include "../stack&queue/bo3-2.cpp"
 //按广度优先非递归遍历图G。使用辅助队列Q和访问标志数组visited
-void BFSTraverse(ALGraph G,void(*Visit)(char *)){
+void BFSTraverse(ALGraph G,void(*Visit)(char*)){
     int i,v,w;
     LinkQueue q;
-    InitQueue(q);
+    InitQueue(q); //置空的辅助队列Q
 
     for(i=0;i<G.vexnum;i++)
-        visited[i]=FALSE;
+        visited[i]=FALSE; //置初值
 
     for(i=0;i<G.vexnum;i++){
         if(!visited[i]){
-            EnQueue(q,i);
+            EnQueue(q,i); //入队列
             Visit(G.vertices[i].data);
             visited[v]=TRUE;
 
-            while (!EmptyQueue(q)){
-                v=DeQueue(q);
+            while (!QueueEmpty(q)){ //队列不为空时循环
+                DeQueue(q,v);
                 for(w=FirstAdjVex(G,G.vertices[v].data);w>-1;w=NextAdjVex(G,G.vertices[v].data,G.vertices[w].data)){
                     if(!visited[w]){
                         Visit(G.vertices[w].data);
@@ -325,6 +325,60 @@ void BFSTraverse(ALGraph G,void(*Visit)(char *)){
     }
     printf("\n");
 
+}
+
+//从第v个顶点出发递归的深度优先遍历图G,仅适用于临接接表存储结构
+void DFS1(ALGraph G,int v,void(*Visit)(char*)){
+    ArcNode *p; //p指向表节点
+    visited[v]=TRUE;
+    Visit(G.vertices[v].data);
+
+    for(p=G.vertices[v].firstarc;p;p=p->nextarc){
+        if(!visited[p->data.adjvex]){
+            DFS1(G,p->data.adjvex,Visit); //对尚未访问的邻接表调用dfs1
+        }
+    }
+}
+
+//对图G作深度优先遍历，DFS1设函数指针参数
+void DFSTraverse1(ALGraph G,void(*Visit)(char*)){
+    int v;
+    for(v=0;v<G.vexnum;v++)
+        visited[v]=FALSE;
+
+    for(v=0;v<G.vexnum;v++){
+        if(!visited[v])
+            DFS1(G,v,Visit);
+    }
+    printf("\n");
+}
+
+void BFSTraverse1(ALGraph G, void(*Visit)(char*)){
+   int v,u;
+    ArcNode *p;
+    LinkQueue Q;
+    for(v=0;v<G.vexnum;v++)
+        visited[v]=FALSE;
+    InitQueue(Q);
+
+    for(v=0;v<G.vexnum;v++){
+        if(!visited[v]){
+            Visit(G.vertices[v].data);
+            visited[v]=TRUE;
+            EnQueue(Q,v);
+
+            while (!QueueEmpty(Q)){
+                DeQueue(Q,u);
+                for(p=G.vertices[u].firstarc;p;p=p->nextarc){
+                    if(!visited[p->data.adjvex]){
+                        Visit(G.vertices[p->data.adjvex].data);
+                        visited[p->data.adjvex]=TRUE;
+                        EnQueue(Q,p->data.adjvex);
+                    }
+                }
+            }
+        }
+    }
 }
 
 //输出图的邻接矩阵

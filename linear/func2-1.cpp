@@ -40,7 +40,7 @@ LinkList Point(LinkList L,ElemType e, Status(*equal)(ElemType,ElemType),LinkList
             return L;
         }
         p=L;
-        for(j=2;j<i;j++)
+        for(j=1;j<i-1;j++)
             p=p->next;
         return p->next;
     }
