@@ -30,7 +30,7 @@ int main(){
     InitBiTree(T);
 #if NOTEST
     //CreateBiTree(T);
-    CreateBiTreeRead(T,"E:\\Users\\cplusDS\\Tree\\main6-1");
+    CreateBiTreeRead(T,"E:\\Users\\cplusDS\\chapter6Tree\\main6-1");
     cout<<"建立二叉树后，数为空？"<<BiTreeEmpty(T)<<"(1:是，0：否)"<<endl;
     cout<<"数的深度："<<BiTreeDepth(T)<<endl;
     i=Root(T,e);//获取根节点

@@ -21,7 +21,7 @@ void CreateGraphF(ALGraph &G){
     ElemType e;
     string filename;
 
-    filename="E:\\Users\\cplusDS\\graph\\bo7-2.txt";
+    filename="E:\\Users\\cplusDS\\chapter7graph\\bo7-2.txt";
     ifstream inFile(filename,ios::out);
     if (!inFile.is_open()) {
         printf("Failed to open main6-1: %s\n", filename.c_str());
