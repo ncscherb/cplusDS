@@ -20,6 +20,7 @@ void CreateBiTree(BiTree &T){
     }
 }
 
+//由文件创建二叉树
 void CreateBiTreeF(BiTree &T,ifstream &inFile){
     TElemType ch;
     inFile>>ch;
@@ -61,7 +62,57 @@ int BiTreeDepth(BiTree T){
     return i>j?i+1:j+1;
 }
 
+//二叉树T存在
 TElemType Root(BiTree T){
-
+    if(BiTreeEmpty(T))
+        return Nil;
+    else
+        return T->data;
 }
+
+//二叉树T存在，p指向T中某个结点,返回该节点的值
+TElemType Value(BiTree p){
+    return p->data;
+}
+
+//给p所指节点赋值value
+void Assign(BiTree p,TElemType value){
+    p->data=value; //为单个字符
+}
+
+typedef BiTree QElemType;//设队列元素为二叉树的指针类型
+#include "../chapter3stack&queue/c3-2.h"
+#include "../chapter3stack&queue/bo3-2.cpp"
+//e是二叉树中某个结点，若e是非根节点，则返回它的双亲，否则返回“空”
+TElemType Parent(BiTree T,TElemType e){
+    BiTree p;
+    LinkQueue q;
+
+    if(T->data==e)
+        return Nil;
+
+    InitQueue(q);
+    EnQueue(q,T);
+
+    while (!QueueEmpty(q)){
+        DeQueue(q,p);
+        if(p->lchild&&p->lchild->data==e || p->rchild&&p->rchild->data==e)
+            return p->data;
+        else{
+            if(p->lchild)
+                EnQueue(q,p->lchild);
+            if(p->rchild)
+                EnQueue(q,p->rchild);
+        }
+    }
+
+    return Nil; //没有找到e
+}
+
+//返回二叉树T中指向元素值为s的节点的指针
+BiTree Point(BiTree T,TElemType s){
+    
+}
+
+
 
