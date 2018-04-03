@@ -111,7 +111,24 @@ TElemType Parent(BiTree T,TElemType e){
 
 //返回二叉树T中指向元素值为s的节点的指针
 BiTree Point(BiTree T,TElemType s){
-    
+    LinkQueue q;
+    QElemType p;
+
+    if(T){
+        InitQueue(q);
+        EnQueue(q,T);
+
+        while (!QueueEmpty(q)){
+           DeQueue(q,p);
+            if(p->data==s)
+                return p;
+            if(p->lchild)
+                EnQueue(q,p->lchild);
+            if(p->rchild)
+                EnQueue(q,p->rchild);
+        }
+    }
+    return NULL;
 }
 
 

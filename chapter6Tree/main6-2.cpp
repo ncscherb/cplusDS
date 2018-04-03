@@ -43,6 +43,12 @@ int main(){
     CreateBiTreeF(T, inFile);
     inFile.close();
     printf("构造空二叉树，数空否？%d(1:是 0：否)，树的深度=%d\n",BiTreeEmpty(T),BiTreeDepth(T));
+    e1=Root(T);
+    if(e1!=Nil)
+        printf("二叉树的根为：" form "\n",e1);
+    else
+        printf("树空，无根\n");
+    printf("中序递归遍历二叉树：\n");
 
 
 }

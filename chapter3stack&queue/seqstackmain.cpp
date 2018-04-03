@@ -1,8 +1,8 @@
 typedef int ElemType ;
 #include "../c1.h"
-#include "seqstack.cpp"
+#include "bo3-1.cpp"
 #include "../linear/func2-3.cpp"
-#include "seqstackEx.cpp"
+#include "algo3-1.cpp"
 using namespace std;
 
 int main(){

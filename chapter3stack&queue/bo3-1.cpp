@@ -1,8 +1,7 @@
 // 顺序栈（存储结构由seqstack.h定义）的基本操作（9个）bo3-1.cpp
-#include "seqstack.h"
 //构造一个空栈
 void InitStack(SeqStack &s){
-    s.base=(ElemType*)malloc(STACK_INIT_SIZE* sizeof(ElemType));
+    s.base=(SElemType*)malloc(STACK_INIT_SIZE* sizeof(SElemType));
     if(!s.base)
         exit(OVERFLOW); //存储分配失败
     s.top=s.base;
@@ -33,9 +32,9 @@ int StackLength(SeqStack s){
     return s.top-s.base;
 }
 
-void Push(SeqStack &s, ElemType e){
+void Push(SeqStack &s, SElemType e){
     if((s.top-s.base)>=s.stacksize){
-        s.base=(ElemType*)realloc(s.base,(s.stacksize+STACK_INCREMENT)* sizeof(ElemType));
+        s.base=(SElemType*)realloc(s.base,(s.stacksize+STACK_INCREMENT)* sizeof(SElemType));
         if(!s.base){
             exit(OVERFLOW);
         }
@@ -46,7 +45,7 @@ void Push(SeqStack &s, ElemType e){
     *s.top++=e; //注意逻辑，当s中有元素时，top指向的是下一个元素将要插入的位置
 }
 
-Status GetTop(SeqStack s,ElemType &e){
+Status GetTop(SeqStack s,SElemType &e){
     if(s.top>s.base){
         e = *(s.top-1);
         return OK;
@@ -56,7 +55,7 @@ Status GetTop(SeqStack s,ElemType &e){
 }
 
 
-Status Pop(SeqStack &s,ElemType &e){
+Status Pop(SeqStack &s,SElemType &e){
     if(s.top>s.base){
         e=*(--s.top);
         return OK;
@@ -65,7 +64,7 @@ Status Pop(SeqStack &s,ElemType &e){
 }
 
 //从栈底到栈顶依次对栈中每个元素调用函数visit()
-void StackTraverse(SeqStack s,void(*visit)(ElemType)){
+void StackTraverse(SeqStack s,void(*visit)(SElemType)){
     while(s.top>s.base){
         visit(*s.base++);
     }

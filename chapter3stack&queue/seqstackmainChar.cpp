@@ -2,9 +2,9 @@ typedef char ElemType ;
 #include "../c1.h"
 #include <fstream> //引入读写文件头文件
 using namespace std;
-#include "seqstack.cpp"
+#include "bo3-1.cpp"
 #include "../linear/func2-3.cpp"
-#include "seqstackEx.cpp"
+#include "algo3-1.cpp"
 
 int main(){
     SeqStack s;
