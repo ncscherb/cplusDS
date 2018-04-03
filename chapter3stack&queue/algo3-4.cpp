@@ -1,4 +1,6 @@
-typedef int SElemType;
+typedef char SElemType;
+#include <fstream>
+using namespace std;
 #include "../c1.h"
 #include "c3-1.h"
 #include "bo3-1.cpp"
@@ -46,5 +48,12 @@ void lineEdit(ofstream &outFile){
 }
 
 int main(){
-    lineEdit();
+    ofstream outFile{"ed.txt"};
+
+    if(outFile.is_open()){
+        lineEdit(outFile);
+        outFile.close(); //关闭fp所指的文件
+    }else{
+        printf("创建行编辑器失败\n");
+    }
 }

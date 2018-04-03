@@ -1,4 +1,4 @@
-typedef int SElemType;
+typedef char SElemType;
 #include "../c1.h"
 #include "c3-1.h"
 #include "bo3-1.cpp"
