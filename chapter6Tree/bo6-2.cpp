@@ -131,5 +131,50 @@ BiTree Point(BiTree T,TElemType s){
     return NULL;
 }
 
+typedef BiTree SElemType; //设栈元素为二叉树的指针类型
+#include "../chapter3stack&queue/c3-1.h"
+#include "../chapter3stack&queue/bo3-1.cpp"
+//中序遍历二叉树T的非递归算法（利用栈），对每个数据元素调用函数Visit
+void InOrderTraverse1(BiTree T,void(*Visit)(TElemType)){
+    SeqStack s;
+    BiTree p;
+
+    InitStack(s);
+
+    while (T||!StackEmpty(s)){
+        if(T){
+           Push(s,T);
+            T=T->lchild;
+        }else{
+            Pop(s,p);
+            Visit(p->data);
+            T=p->rchild;
+        }
+    }
+    printf("\n");
+}
+
+//中序遍历二叉树T的非递归算法（利用栈），对每个数据元素调用visit
+void InOrderTraverse2(BiTree T,void(*Visit)(TElemType)) {
+    SeqStack s;
+    BiTree p;
+
+    InitStack(s);
+    if(T){
+        Push(s,T);
+        while (!StackEmpty(s)){
+            while(GetTop(s,p)&&p)
+                Push(s,p->lchild);
+
+            Pop(s,p); //弹出空指针
+
+            if(!StackEmpty(s)){
+               Pop(s,p);
+               Visit(p->data);
+               Push(s,p->rchild); //通过右子节点是否为空来判断该节点是否遍历已经完成
+            }
+        }
+    }
+}
 
 

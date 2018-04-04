@@ -17,13 +17,13 @@ set(CMAKE_CXX_STANDARD 17)
 #add_executable(cplus  chapter3stack&queue/algo3-1.cpp)
 #add_executable(cplus  chapter3stack&queue/algo3-2.cpp)
 #add_executable(cplus  chapter3stack&queue/algo3-3.cpp)
-add_executable(cplus  chapter3stack&queue/algo3-4.cpp)
+#add_executable(cplus  chapter3stack&queue/algo3-4.cpp)
 #------------第五章-数组-----------------------
 #add_executable(cplus chapter5array/main5-1.cpp )
 #add_executable(cplus chapter5array/main5-2.cpp)
 #-------------第六章-树-----------
 #add_executable(cplus  chapter6Tree/main6-1.cpp)
-#add_executable(cplus   chapter6Tree/main6-2.cpp)
+add_executable(cplus   chapter6Tree/main6-2.cpp)
 #-------------第七章-图-----------
 #add_executable(cplus  chapter7graph/main7-1.cpp )
 #add_executable(cplus chapter7graph/main7-2.cpp)

@@ -49,6 +49,7 @@ int main(){
     else
         printf("树空，无根\n");
     printf("中序递归遍历二叉树：\n");
+    InOrderTraverse2(T,visitT);
 
 
 }
