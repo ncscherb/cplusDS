@@ -131,6 +131,21 @@ BiTree Point(BiTree T,TElemType s){
     return NULL;
 }
 
+//返回e的左孩子，若e无左孩子，则返回空值
+TElemType LeftChild(BiTree T,TElemType e){
+    BiTree p;
+
+    if(!T)
+        return Nil;
+
+    p=Point(T,e);
+    if(p&&p->lchild){
+        return p->lchild->data;
+    }
+
+    return Nil;
+}
+
 typedef BiTree SElemType; //设栈元素为二叉树的指针类型
 #include "../chapter3stack&queue/c3-1.h"
 #include "../chapter3stack&queue/bo3-1.cpp"
@@ -177,4 +192,60 @@ void InOrderTraverse2(BiTree T,void(*Visit)(TElemType)) {
     }
 }
 
+//后序递归遍历T
+void PostOrderTraverse(BiTree T,void(*Visit)(TElemType)){
+    if(T){
+        PostOrderTraverse(T->lchild,Visit);
+        PostOrderTraverse(T->lchild,Visit);
+        Visit(T->data); //最后访问根节点
+    }
+}
 
+//非递归--后序遍历
+void PostOrderTraverse1(BiTree T,void(*Visit)(TElemType)){
+    SeqStack s;
+    SeqStack s1;//辅助栈，用来存储根节点
+    BiTree p;
+    BiTree p1;
+
+    InitStack(s);
+    InitStack(s1);
+    while (T||!StackEmpty(s)){
+        if(T){
+            Push(s,T);
+            T=T->lchild;
+        }else{
+            Pop(s,p);
+            GetTop(s1,p1);
+            if(p->rchild&&p1!=p){ //右子树不为空并且该节点未被访问过则入栈
+                T=p->rchild;
+                Push(s,p);
+                Push(s1,p);
+            }else{
+               Visit(p->data);
+                if(p1==p) //子树出栈条件
+                    Pop(s1,p1);
+            }
+        }
+    }
+    printf("\n");
+}
+
+//层序递归遍历T(利用队列)
+void LevelOrderTraverse(BiTree T,void(*Visit)(TElemType)){
+    LinkQueue q;
+    QElemType e;
+
+    InitQueue(q);
+    if(T){
+        EnQueue(q,T);
+        while (!QueueEmpty(q)){
+            DeQueue(q,e);
+            Visit(e->data);
+            if(e->lchild)
+                EnQueue(q,e->lchild);
+            if(e->rchild)
+                EnQueue(q,e->rchild);
+        }
+    }
+}

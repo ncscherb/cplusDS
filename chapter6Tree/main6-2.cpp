@@ -50,6 +50,7 @@ int main(){
         printf("树空，无根\n");
     printf("中序递归遍历二叉树：\n");
     InOrderTraverse2(T,visitT);
-
-
+    printf("后序递归遍历二叉树：\n");
+    PostOrderTraverse1(T,visitT);
+    LevelOrderTraverse(T,visitT);
 }
