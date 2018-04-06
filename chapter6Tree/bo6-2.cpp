@@ -1,6 +1,6 @@
 //bo62.cpp 二叉树的二叉链表存储（存储结构由c6-2.h定义）的基本操作22个
 
-//#include "c6-2.h"
+#define ClearBiTree DestoryBiTree
 #include "func6-3.cpp"
 
 //按优先次序输入二叉树中节点的值（可为字符型或整型，在主程序中定义）
@@ -144,6 +144,77 @@ TElemType LeftChild(BiTree T,TElemType e){
     }
 
     return Nil;
+}
+//返回e的右孩子，若e无右孩子，则返回空值
+TElemType RightChild(BiTree T,TElemType e){
+    BiTree p;
+
+    if(!T)
+        return Nil;
+
+    p=Point(T,e);
+    if(p&&p->rchild){
+        return p->rchild->data;
+    }
+
+    return Nil;
+}
+
+//返回e的左邻居，若e无左邻居，则返回空值
+TElemType LeftSibling(BiTree T,TElemType e){
+    TElemType a;
+    BiTree p;
+    if(T){
+        a = Parent(T,e);
+        if(a!=Nil){
+            if(p&&p->lchild&&p->rchild&&p->rchild->data==e)
+                return p->lchild->data;
+        }
+    }
+    return Nil;
+}
+
+//返回e的右邻居，若e无右邻居，则返回空值
+TElemType RightSibling(BiTree T,TElemType e){
+    TElemType a;
+    BiTree p;
+    if(T){
+        a = Parent(T,e);
+        if(a!=Nil){
+            p=Point(T,a);
+            if(p&&p->rchild&&p->lchild&&p->lchild->data==e)
+                return p->lchild->data;
+        }
+    }
+    return Nil;
+}
+
+//根据LR为0或1，插入c为T中p所指节点的左或右子树
+//p所指节点的原有左或右子树则成为c的右子树
+Status InsertChild(BiTree p,int LR,BiTree c){
+    if(p){
+        if(LR){
+            c->rchild=p->rchild;
+            p->rchild=c;
+        }else{
+            c->rchild=p->lchild;
+            p->lchild=c;
+        }
+        return OK;
+    }
+    return ERROR;
+}
+
+//根据LR为0或1，删除T中p所指节点的左或右子树
+Status DeleteChild(BiTree p,int LR){
+    if(p){
+        if(LR==0)
+            ClearBiTree(p->lchild);
+        else
+            ClearBiTree(p->rchild);
+        return OK;
+    }
+    return ERROR;
 }
 
 typedef BiTree SElemType; //设栈元素为二叉树的指针类型

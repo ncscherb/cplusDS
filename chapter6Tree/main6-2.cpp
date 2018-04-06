@@ -52,5 +52,41 @@ int main(){
     InOrderTraverse2(T,visitT);
     printf("后序递归遍历二叉树：\n");
     PostOrderTraverse1(T,visitT);
+    printf("\n请输入一个已存在节点的值:");
+    scanf( form,&e1);
+    p=Point(T,e1);//p为e1的指针
+    printf("节点的值为" form "\n",Value(p));
+    printf("欲改变此节点的值，请输入新值:");
+    scanf("%*c" form "%*c",&e2); //有一个%*c吃掉回车符，为调用CreateBiTree做准备
+    Assign(p,e2);
+    printf("层序递归遍历二叉树：\n");
     LevelOrderTraverse(T,visitT);
+    e1=Parent(T,e2);
+    if(e1!=Nil)
+        printf("%c的双亲是"form"\n",e2,e1);
+    else
+        printf(form"没有双亲\n",e2);
+    e1=LeftChild(T,e2);
+    if(e1!=Nil)
+        printf(form"的左孩子是"form"\n",e2,e1);
+    else
+        printf(form"没有左孩子\n",e2);
+    e1=RightChild(T,e2);
+    if(e1!=Nil)
+        printf(form"的右孩子是"form"\n",e2,e1);
+    else
+        printf(form"没有右孩子\n",e2);
+    e1=LeftSibling(T,e2);
+    if(e1!=Nil)
+        printf(form"的左兄弟是"form"\n",e2,e1);
+    else
+        printf(form"没有左兄弟\n",e2);
+    e1=RightSibling(T,e2);
+    if(e1!=Nil)
+        printf(form"的右兄弟是"form"\n",e2,e1);
+    else
+        printf(form"没有右兄弟\n",e2);
+
+
+
 }
